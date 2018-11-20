@@ -46,9 +46,12 @@ Client.on('message', message => {
     }
     
     if (message.content.startsWith(config.prefix + 'roles')) {
+        let roles = '';
         for (let key of message.guild.roles.keyArray()) {
-            message.channel.send(key + ': ' + message.guild.roles.get(key).name.replace(/@/g, ''))
+            roles += key + ': ' + message.guild.roles.get(key).name.replace(/@/g, '') + '\n'
         }
+        roles = roles.substring(0, roles.length - 1)
+        message.channel.send(roles)
     }
 
 
