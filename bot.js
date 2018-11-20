@@ -1,11 +1,12 @@
-const Discord = require("discord.js")
+const Discord = require('discord.js')
 const Client = new Discord.Client()
-const config = require("./config.json")
+const config = require('./config.js')
 let Guild = Discord.Guild
 
 // sets prefix
 const prefix = config.prefix 
 Client.on('ready', () => {
+    Client.user.setActivity('with Friends', {type: "PLAYING"})
     console.log("I am ready!")
 })
 
@@ -20,22 +21,34 @@ Client.on('guildMemberAdd', member => {
 
 // Sends messages to a channel based on certain commands
 Client.on('message', message => {
+    if (!message.content.startsWith(prefix) || message.author.bot) return
 
-    // Exit and stop if prefix is not there
-    if(!message.content.startsWith(prefix) || message.author.bot) return;
+    if (message.content.startsWith(prefix + 'ban')) {
+        const user = message.mentions.users.first();
 
-    if (message.content.startsWith(prefix + 'ping')) {
-        message.channel.send('pong!')
-    }
+        if (user) {
+            let member = message.guild.member(user)
 
-    if (message.content.startsWith(config.prefix + 'foo')) {
-        message.channel.send('bar')
+            if (member) {
+                member.ban({
+                    reason: 'Innapropriate Behavior',
+                }).then(() => {
+                    message.reply(`Successfully banned ${user.tag}`)
+                }).catch(err => {
+                    message.reply('I was unable to ban user!')
+                    console.log(err)
+                })
+            } else {
+                message.reply('That user isn\'t in this guild')
+            }
+        } else {
+            message.reply('You didn\'t mention the user to ban!')
+        }
     }
     
    if (message.content.startsWith(config.prefix + 'roles')) {
-       let roles = Guild.roles 
-       message
    }
+
 
 })
 
