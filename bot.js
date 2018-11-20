@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
 const Client = new Discord.Client()
 const config = require('./config.js')
-let Guild = Discord.Guild
 
 // sets prefix
 const prefix = config.prefix 
@@ -47,6 +46,9 @@ Client.on('message', message => {
     }
     
    if (message.content.startsWith(config.prefix + 'roles')) {
+      for (let key of message.guild.roles.keyArray()) {
+          message.channel.send(key + ': ' + message.guild.roles.get(key).name)
+      } 
    }
 
 
