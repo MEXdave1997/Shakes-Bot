@@ -3,15 +3,35 @@ const Client = new Discord.Client()
 const config = require('./config.js')
 
 // sets prefix
-const prefix = config.prefix 
+const prefix = config.prefix
+const token = config.token
+const guildID = config.guildID
 Client.on('ready', () => {
     Client.user.setActivity('with Friends', {type: "PLAYING"})
     console.log("I am ready!")
+
+    let rolesChannel = Client.guilds.get(guildID).channels.find(channel => channel.name === 'roles' && channel.type === 'text')
+    let message = {
+        "embed": {
+            "title": 'React with the emote that corresponds to the role you want.',
+            "description": '<:fries:514507420832104459> | Fry boi'
+        }
+    }
+    // rolesChannel.send(message)
+
+    // These messages are fetched so that role reactions appear in messageReactionAdd and messageReactionRemove
+    rolesChannel.fetchMessages().then(messages => {
+        for (let message of messages) {
+            // For some reason it puts the message ID in array spot 0, and the message itself in array spot 1. This ID is redundant and can be found with message.id
+            message = message[1];
+            console.log(message)
+        }
+    })
 })
 
 /// Welcomes a new member
 Client.on('guildMemberAdd', member => {
-    const channel = member.guild.channels.find(ch => ch.name === 'welcome')
+    const channel = member.guild.channels.find(channel => channel.name === 'welcome' && channel.type === 'text')
 
     if (!channel) return
 
@@ -45,7 +65,7 @@ Client.on('message', message => {
         }
     }
     
-    if (message.content.startsWith(config.prefix + 'roles')) {
+    if (message.content.startsWith(prefix + 'roles')) {
         let roles = '';
         for (let key of message.guild.roles.keyArray()) {
             roles += key + ': ' + message.guild.roles.get(key).name.replace(/@/g, '') + '\n'
@@ -57,4 +77,12 @@ Client.on('message', message => {
 
 })
 
-Client.login(config.token)
+Client.on('messageReactionAdd', reaction => {
+    //
+})
+
+Client.on('messageReactionRemove', reaction => {
+    //
+})
+
+Client.login(token)
