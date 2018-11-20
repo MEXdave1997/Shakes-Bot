@@ -1,6 +1,7 @@
 const Discord = require("discord.js")
 const Client = new Discord.Client()
 const config = require("./config.json")
+let Guild = Discord.Guild
 
 // sets prefix
 const prefix = config.prefix 
@@ -32,7 +33,7 @@ Client.on('message', message => {
     }
     
    if (message.content.startsWith(config.prefix + 'roles')) {
-       let roles = member.
+       let roles = Guild.roles 
        message
    }
 
