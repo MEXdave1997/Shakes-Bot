@@ -2,10 +2,11 @@ const Discord = require('discord.js')
 const Client = new Discord.Client()
 const config = require('./config.js')
 
-// sets prefix
+// sets configuration variables
 const prefix = config.prefix
 const token = config.token
 const guildID = config.guildID
+
 Client.on('ready', () => {
     Client.user.setActivity('with Friends', {type: "PLAYING"})
     console.log("I am ready!")
