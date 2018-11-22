@@ -75,6 +75,18 @@ Client.on('message', message => {
         message.channel.send(roles)
     }
 
+    if (message.content.startsWith(prefix + 'roll')) {
+        // overly complex implementation incoming 
+        let dice = {
+            sides: 6,
+            roll: () => {
+                let randomNumber = Math.floor(Math.random() * this.sides) + 1
+                return randomNumber
+            }
+        }
+
+        message.channel.send(dice.roll)
+    }
 
 })
 
