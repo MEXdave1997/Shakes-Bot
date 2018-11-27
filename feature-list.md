@@ -2,7 +2,7 @@
 
 * Role Management
 * Search Function
-* Dice Roll
+~~* Dice Roll~~
 * Fortune
 * General Search
 * Meme Finder

@@ -85,7 +85,12 @@ Client.on('message', message => {
             }
         }
 
-        message.channel.send(dice.roll)
+        if (dice.roll > 3) {
+            message.channel.send(`Congrats! You rolled a ${dice.roll}!`)
+        } else {
+            message.channel.send(`Too bad! Looks like you rolled a ${dice.roll}`)
+        }
+
     }
 
 })
